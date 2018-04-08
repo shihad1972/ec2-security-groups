@@ -48,11 +48,23 @@ No external dependencies on other roles
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
+    - hosts: localhost
+      vars: 
+        - region: eu-west-1
+          vpc_name: Management
+          aws_security_groups:
+            allow_ssh:
+              desc: Allow ssh to public interface
+              res_tags:
+                VPC: "{{ vpc_name }}"
+                Name: Allow public SSH
+              rules:
+                - proto: tcp
+                  from_port: 22
+                  to_port: 22
+                  cidr_ip: 0.0.0.0/0
       roles:
-         - { role: username.rolename, x: 42 }
+         - ec2-security-groups
 
 License
 -------
