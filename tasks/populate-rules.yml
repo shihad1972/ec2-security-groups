@@ -1,0 +1,11 @@
+---
+- name: populate inbound and outbound security group rules
+  ec2_group:
+    region: "{{ region }}"
+    name: "{{ item.key }}"
+    description: "{{ item.value.desc }}"
+    vpc_id: "{{ vpc_id }}"
+    rules: "{{ item.value.rules|default([]) }}"
+    rules_egress: "{{ item.value.rules_egress|default([]) }}"
+  with_dict: "{{ aws_security_groups }}"
+  no_log: true

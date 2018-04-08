@@ -1,0 +1,26 @@
+---
+
+# We add fake rule here to stop this task purging existing rules
+# from the groups
+
+- name: create empty security groups
+  ec2_group:
+    region: "{{ region }}"
+    name: "{{ item.key }}"
+    description: "{{ item.value.desc }}"
+    vpc_id: "{{ vpc_id }}"
+    purge_rules: false
+    purge_rules_egress: false
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 10.0.0.0/32
+    rules_egress:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 10.0.0.0/32
+  with_dict: "{{ aws_security_groups }}"
+  register: new_empty_sg
+  no_log: true

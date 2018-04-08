@@ -1,0 +1,19 @@
+---
+
+- name: return list of security groups
+  ec2_group_facts:
+    region: "{{ region }}"
+    filters:
+      group_name: "{{ item.key }}"
+  with_dict: "{{ aws_security_groups }}"
+  register: sglist
+  no_log: true
+
+- name: tag security groups
+  ec2_tag:
+    region: "{{ region }}"
+    resource: "{{ item.security_groups.0.group_id }}"
+    state: present
+    tags: "{{ item.item.value.res_tags }}"
+  with_items: "{{ sglist.results }}"
+  no_log: true
