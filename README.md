@@ -15,11 +15,15 @@ Role Variables
 The variables you will be required to provide are as follows:
   - region
       The AWS region the VPC belongs to, e.g. eu-west-1
+  - vpc_name
+      The name of the VPC that the security groups will be created for.
+      If your VPC does not have a name, you can pass in the vpc_id instead
   - aws_security_groups:
       A dictionary of security groups to create. You can use group_name or
       cidr_ip for the firewall rule; the group_name can already exist or
       be one you are creating with this role.
       Dictionary variable layout:
+
 aws_security_groups:
   name:
     desc: some description here
@@ -35,10 +39,6 @@ aws_security_groups:
         from_port: port #
         to_port: port #
         group_name: some-group-name
-
-  - vpc_name
-      The name of the VPC that the security groups will be created for.
-      If your VPC does not have a name, you can pass in the vpc_id instead
 
 Dependencies
 ------------
