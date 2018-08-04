@@ -1,10 +1,10 @@
 ---
 # tasks file for ec2-security-groups
 
-- include: get-vpc-facts.yml
-- include: create-empty-sg.yml
+- import_tasks: get-vpc-facts.yml
+- import_tasks: create-empty-sg.yml
   when: aws_security_groups is defined
-- include: populate-rules.yml
+- import_tasks: populate-rules.yml
   when: aws_security_groups is defined
-- include: tag-groups.yml
+- import_tasks: tag-groups.yml
   when: aws_security_groups is defined
