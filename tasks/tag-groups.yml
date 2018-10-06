@@ -7,7 +7,8 @@
       group_name: "{{ item.key }}"
   with_dict: "{{ aws_security_groups }}"
   register: sglist
-  no_log: true
+  loop_control:
+    label: "{{ item.key }}"
 
 - name: tag security groups
   ec2_tag:
@@ -16,4 +17,5 @@
     state: present
     tags: "{{ item.item.value.res_tags }}"
   with_items: "{{ sglist.results }}"
-  no_log: true
+  loop_control:
+    label: "{{ item.item.value.res_tags.Name }}"

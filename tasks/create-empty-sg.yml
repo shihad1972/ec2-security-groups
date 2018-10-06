@@ -23,4 +23,5 @@
         cidr_ip: 10.0.0.0/32
   with_dict: "{{ aws_security_groups }}"
   register: new_empty_sg
-  no_log: true
+  loop_control:
+    label: "{{ item.key }}"

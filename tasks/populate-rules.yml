@@ -8,4 +8,5 @@
     rules: "{{ item.value.rules|default([]) }}"
     rules_egress: "{{ item.value.rules_egress|default([]) }}"
   with_dict: "{{ aws_security_groups }}"
-  no_log: true
+  loop_control:
+    label: "{{ item.key }}"
